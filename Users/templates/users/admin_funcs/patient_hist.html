@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% csrf_token %}
+    <title>Doctor's Patient History</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background-color: #222;
+        }
+
+        .back-link {
+            display: block;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .back-link a {
+            color: #fff;
+            text-decoration: none;
+
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .header a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-left: 10px;
+            text-decoration: none;
+            background-color: #444;
+            color: #fff;
+            border-radius: 4px;
+            font-weight:bolder;
+
+        }
+
+        .header a.button:hover {
+            background-color: aqua;
+        }
+  
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  width: 200px;
+  margin-left:580px;
+  font-size: 20px;
+  font-family: sans-serif;
+   border-radius: 5px;
+}
+
+
+.form-popup {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 520px;
+  border: 1px groove aqua;
+  
+}
+
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color:#222;
+}
+
+
+.form-container input[type=text], .form-container input[type=password] {
+  width: 80%;
+  padding: 10px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+.form-container .btn {
+  background-color:#555;
+  color: #fff;
+  padding: 8px 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 5px;
+ margin-left: 50px;
+  margin-bottom:10px;
+  opacity: 0.8;
+  font-weight: bolder;
+}
+
+.form-container .cancel {
+  background-color: red;
+  margin-left: 120px;
+}
+
+.form-container .cancel:hover{
+background-color: lightcoral;
+}
+
+.btn:hover{
+background-color: rgb(70, 221, 221);
+}
+
+
+.open-button:hover {
+  opacity: 1;
+  background-color: aqua;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a class="button" href={%url 'med_show' %}>Back</a>
+        </div>
+        <h1>Patient History</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Diagnosis</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in patients  %}
+            {% if i.doctor.med_id == id  %}
+            <tr>
+                <td>{{i.patient.first_name}} {{i.patient.last_name}}</td>
+                <td>{{i.diagnosis}}</td>
+                <td>{{i.date}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+

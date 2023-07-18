@@ -1,0 +1,92 @@
+{%extends 'users/base.html' %}
+
+{%block content%}
+<style>
+ 
+    .dropdown:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 4px;
+    }
+    
+    .dropdown:hover:before {
+        opacity: 1;
+    }
+            
+   nav ul .without a:before {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 0;
+        background-color: aqua;
+        bottom: -5px;
+        left: 0;
+        transition: width 0.3s;
+    }
+    
+    nav ul .without a:hover:before {
+        width: 100%;
+    }
+
+    .content {
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 0 auto;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #111;
+        border-radius: 4px;
+        padding-bottom:0px;
+    }
+
+    .content{
+        border-bottom-style: ridge;
+        border-bottom-color: aqua;
+        border-top-style: ridge;
+        border-top-color: aqua;
+        border-radius: 10px;
+    }
+
+    .content h1 {
+        text-align: center;
+    }
+
+    .personal-info {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .personal-info p {
+        margin-bottom: 5px;
+        font-size: 20px;
+    }
+
+    .personal-info strong {
+        font-weight: bold;
+    }
+</style>
+    {% for obj in admin %}
+    {% if request.user.username == obj.admin_id %}
+    <div class="content">
+        <h1 style="font-size: 40px;margin-top: 0;margin-bottom: 20px;">Welcome, {{obj.title}}!</h1>
+        <div class="personal-info">
+            <p><strong>Name:</strong> {{obj.first_name}} {{obj.last_name}}</p>
+            <p><strong>ID:</strong> {{obj.admin_id}}</p>
+            <p><strong>Contact Number:</strong> {{obj.contact_number}}</p>
+            <p><strong>Salary:</strong> {{obj.salary}}</p>
+            <p><strong>Clearance Level:</strong>{{obj.clearance_level}}</p>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+{%endblock content%}

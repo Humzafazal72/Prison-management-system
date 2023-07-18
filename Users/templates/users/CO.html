@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% csrf_token %}
+    <title>CO Homepage</title>
+    <style>
+        body {
+            background-color: rgb(8, 8, 8);
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .header a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-left: 10px;
+            text-decoration: none;
+            background-color: #444;
+            color: #fff;
+            border-radius: 4px;
+            font-weight:bolder;
+
+        }
+
+        .header a.button:hover {
+            background-color: aqua;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #111;
+            border-radius: 4px;
+        }
+
+        .content{
+            border-bottom-style: ridge;
+            border-bottom-color: aqua;
+            border-top-style: ridge;
+            border-top-color: aqua;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .personal-info {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .personal-info p {
+            margin-bottom: 5px;
+        }
+
+        .personal-info strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% for obj in CO %}
+    {% if request.user.username == obj.CO_id %}
+<div class="container">
+    <div class="header">
+        <a class="button" href={%url 'CO_logout' %}>Log out</a>
+    </div>
+    <br>
+    <div class="content">
+        <h1>Welcome, Officer!</h1>
+        <div class="personal-info">
+            <p><strong>Name:</strong> {{obj.first_name}} {{obj.last_name}}</p>
+            <p><strong>ID:</strong> {{obj.CO_id}}</p>
+            <p><strong>Contact Number:</strong> {{obj.contact_number}}</p>
+            <p><strong>Salary:</strong> {{obj.salary}}</p>
+            <p><strong>Availability:</strong>{{obj.shift.starting_day}} to {{obj.shift.ending_day}}: {{obj.shift.starting_time}} - {{obj.shift.ending_time}}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+</body>
+</html>
+
+        

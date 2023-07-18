@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% csrf_token %}
+    <title>Visitor Homepage</title>
+    <style>
+        body {
+            background-color: rgb(8, 8, 8);
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .header a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-left: 10px;
+            text-decoration: none;
+            background-color: #444;
+            color: #fff;
+            border-radius: 4px;
+            font-weight:bolder;
+
+        }
+
+        .header a.button:hover {
+            background-color: aqua;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #111;
+            border-radius: 4px;
+        }
+
+        .content{
+            border-bottom-style: ridge;
+            border-bottom-color: aqua;
+            border-top-style: ridge;
+            border-top-color: aqua;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .personal-info {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .personal-info p {
+            margin-bottom: 5px;
+        }
+
+        .personal-info strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% for obj in Visitor %}
+    {% if request.user.username == obj.CNIC %}
+<div class="container">
+    <div class="header">
+        <a class="button" href={%url 'visit_logout' %}>Log out</a>
+    </div>
+    <br>
+    <div class="content">
+        <h1>Welcome, Mr. {{obj.last_name}}</h1>
+        <div class="personal-info">
+            <p><strong>Name:</strong> {{obj.first_name}} {{obj.last_name}}</p>
+            <p><strong>ID:</strong> {{obj.CNIC}}</p>
+            <p><strong>Contact Number:</strong> {{obj.contact_number}}</p>
+            <p><strong>Inmate Visiting:</strong> {{obj.Inmate_visting}}</p>
+            
+            {% if  obj.approval_status == null  %}
+            <p><strong>Approval Status:</strong> <i style="color:yellow" >pending...</i></p>
+            <p>Stay tuned. We will keep you updated.</p>
+
+            {% elif obj.approval_status == True %}
+            <p><strong>Approval Status:</strong> <i style="color:green" >approved</i></p>
+            <p><strong>Time Allocated:</strong> {{obj.Visit_date}}</p>
+            <p><i>Please Ensure that you arrive at the Facility 30 minutes before time.</i></p>
+
+            {% elif obj.approval_status == False %}
+            <p><strong>Time Allocated:</strong> <i style="color:red"> Rejected </i></p>
+            <p><i>To receive notification regarding the reason for rejection,<br> please contact us at our email PMS@gov.pk.<i></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+</body>
+</html>
+
+        

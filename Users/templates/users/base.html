@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color:rgb(8, 8, 8);
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav {
+            background-color:rgb(8, 8, 8);
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 999;
+            font-family: sans-serif;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            margin-left: 170px;
+        }
+        
+        nav ul li {
+            margin-right: 15px;
+            position: relative;
+            width: 150px;
+            height: 30px;
+            text-align: center;
+            padding-top: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            border-top-style: solid;
+            border-top-color: aqua;
+
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+            z-index: 1;
+            
+        }
+        
+        .dropdown{
+            width: 150px;
+            height: 30px;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-content {
+            display: none;
+            position:relative;
+            background-color: black;
+            width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;   
+            left: 15px;
+            border-radius: 4px;
+            height: 50px;
+            top: 2px;
+            border-top: aqua;
+            border-top-style: inherit;
+        }
+        
+        .dropdown-content a {
+            color: #fff;
+            padding: 5px 7px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            font-size: medium;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #333;
+        }
+               
+                    
+        nav ul li a:hover {
+            color: aqua;
+        }
+
+    </style>
+</head>
+<body>
+    <br>
+    <nav>
+        <ul>
+            <li class="without"><a href={% url 'admin_view' %}>Home</a></li>
+            <li class="without"><a href={%url 'med_show' %}>Doctors</a></li>
+            <li class="without"><a href={%url 'inmate_show' %}>Inmates</a></li>
+            <li class="without"><a href={% url 'COs_show' %}>C.O.</a></li>
+            <li class="dropdown">
+                <a href="#">Visitors &#8659; </a>
+                <div class="dropdown-content">
+                    <a href={% url 'visit_pending' %}>Pending</a>
+                    <a href={% url 'visit_yes' %}>Accepted</a>
+                    <a href={% url 'visit_no' %}>Rejected</a>
+                </div>
+            </li>
+            <li class="without"><a href={%url 'admin_logout' %}>Logout</a></li>
+        </ul>
+    </nav>
+
+    <br>
+    {% block content %}
+
+    {% endblock content %}
+</body>
+</html>

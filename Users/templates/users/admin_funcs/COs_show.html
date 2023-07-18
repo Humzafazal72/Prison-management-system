@@ -1,0 +1,106 @@
+{%extends 'users/base.html'%}
+{%block content%}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+    body {
+        background-color: rgb(8, 8, 8);
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid aqua;
+
+    }
+
+    th {
+        font-size: large;
+        background-color: #222;
+    }
+
+</style>
+
+<div class="container">
+    <h1 style="font-weight:bold">CORRECTION OFFICERS</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>D.O.B</th>
+            <th>Contact</th>
+            <th>Salary</th>
+            <th style="text-align: center;">Shift</th>
+            <th>Change shift</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in CO %}
+        <tr>
+            <td>{{ i.CO_id }}</td>
+            <td>{{ i.first_name }} {{ i.last_name }}</td>
+            <td>{{ i.dob }}</td>
+            <td>{{ i.contact_number }}</td>
+            <td>{{ i.salary }}</td>
+            <td>{{ i.shift }}</td>
+            <td style="text-align: center;">
+                <a href="#editCOModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" style="color: aqua;">&#xE254;</i></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% for i in CO %}
+<div id="editCOModal-{{forloop.counter}}" class="modal fade">
+    <div class="modal-dialog" style="margin-top: 200px;margin-right: 200px;">
+        <div class="modal-content" style="width: 300px;background-color: rgb(8, 8, 8);border-color: aqua;border-style: ridge;" >
+            <form action="{% url 'CO_update' i.CO_id %}" method="POST" >
+                {%csrf_token%}
+                <div class="form-group" style="color: whitesmoke;">
+                    <label>Change Shift:</label><br>
+                    {% for option in options %}
+                    <input  type="radio" name="shift" id="{{option.shift_id}}" value="{{option.shift_id}}">
+                    <label for="{{option.shift_id}}">{{option}}</label><br>
+                    {% endfor %}
+                    <input style="margin-left: 150px;" type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-info" value="update"> 
+                </div>
+                </div>  
+            </form>
+        </div>
+    </div>
+</div>
+{%endfor%}
+
+{%endblock content%}

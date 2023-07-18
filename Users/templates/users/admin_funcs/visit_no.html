@@ -1,0 +1,109 @@
+{%extends 'users/base.html'%}
+{%block content%}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+    body {
+        background-color: rgb(8, 8, 8);
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid aqua;
+
+    }
+
+    th {
+        font-size: large;
+        background-color: #222;
+    }
+
+</style>
+
+<div class="container">
+    <h1 style="font-weight:bold">Rejected Visitors</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>CNIC</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Inmate visiting</th>
+            <th>Relation w Inmate</th>
+            <th>Status</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+            {% for i in visitor %}
+            {% if i.approval_status is False %}
+                <tr>
+                    <td>{{ i.CNIC }}</td>
+                    <td>{{ i.first_name }} {{ i.last_name }}</td>
+                    <td>{{ i.contact_number }}</td>
+                    <td>{{ i.Inmate_visting }}</td>
+                    <td>{{ i.relation_w_inmate }}</td>
+                    <td style="text-align: center;">
+                        <a href="#editvisitorModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" style="color: red;"><b>&#10005;</b></i></a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    {% for i in visitor %}
+    <div id="editvisitorModal-{{forloop.counter}}" class="modal fade">
+        <div class="modal-dialog" style="margin-top: 200px;width:250px;">
+            <div class="modal-content" style="background-color:rgb(8, 8, 8);border-color: aqua;border-style: ridge;" >
+                <form action="{% url 'edit_visit' i.CNIC %}" method="POST" >
+                    {%csrf_token%}
+                    <label > Approval Status:</label><br>
+                    <input  type="radio" name="yes" id="no" value="True">
+                    <label for="yes">Approve</label><br> 
+
+                    <input  type="radio" name="no" id="no" value="False">
+                    <label for="no">Reject</label><br><br>
+                    
+                    <label>Visit Date:</label><br>
+                    <input type="datetime-local" name='date' style="color:black"  >
+                        <br>
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" style="margin-top:20px;margin-bottom:10px">
+                        <input type="submit" class="btn btn-info" value="Confirm" style="margin-top:20px;margin-bottom:10px;">    
+                        <br>            
+                </form>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    
+
+{%endblock content%}

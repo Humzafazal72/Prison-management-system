@@ -1,0 +1,84 @@
+{%extends 'users/base.html'%}
+{%block content%}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+    body {
+        background-color: rgb(8, 8, 8);
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid aqua;
+
+    }
+
+    th {
+        font-size: large;
+        background-color: #222;
+    }
+
+</style>
+<div class="container">
+    <h1 style="font-weight:bold">Approved Visitors</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>CNIC</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Inmate visiting</th>
+            <th>Relation w Inmate</th>
+            <th>Visit Date</th>
+            <th>Status</th>
+            
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in visitor %}
+            {% if i.approval_status is True %}
+                <tr>
+                    <td>{{ i.CNIC }}</td>
+                    <td>{{ i.first_name }} {{ i.last_name }}</td>
+                    <td>{{ i.contact_number }}</td>
+                    <td>{{ i.Inmate_visting }}</td>
+                    <td>{{ i.relation_w_inmate }}</td>
+                    <td>{{i.Visit_date}}</td>
+                    <td style="text-align: center;">
+                        <i class="material-icons" data-toggle="tooltip" title="Edit" style="color: green;">&#10004;</i>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{%endblock content%}
